@@ -1,6 +1,21 @@
 import React from "react";
 
-function Item({ item }) {
+function Item({ item, onUpdateItem }) {
+
+  function handleAddToCartClick() {
+    fetch(`http://localhost:4000/items/${item.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        isInCart: !item.isInCart,
+      }),
+    })
+      .then((r) => r.json())
+      .then((updatedItem) => console.log(updatedItem));
+  }
+
   return (
     <li className={item.isInCart ? "in-cart" : ""}>
       <span>{item.name}</span>
